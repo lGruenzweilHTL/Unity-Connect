@@ -6,7 +6,7 @@
 Social Interactivity Plattform for unity
 
 ### About
-- Unity Version: none
+- Unity Version: 2022.3.41f1
 - Latest Version: none
 - Latest LTS Version: none
 
@@ -25,6 +25,3 @@ No code cleanups required (yet)
 
 ### Bugs
 Currently no known bugs
-
-## Unity Packagse used
-none
