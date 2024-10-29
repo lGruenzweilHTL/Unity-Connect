@@ -1,8 +1,7 @@
 using Unity.Services.Core;
-using UnityConnect;
 using UnityEngine;
 
-namespace UnityConect
+namespace UnityConnect
 {
     public class UnityServiceManager : MonoBehaviour
     {

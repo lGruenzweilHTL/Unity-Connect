@@ -16,5 +16,7 @@ namespace UnityConnect
 
         public static IReadOnlyList<Relationship> Friends => FriendsService.Instance.Friends;
         public static IReadOnlyList<Relationship> Blocked => FriendsService.Instance.Blocks;
+        public static IReadOnlyList<Relationship> IncomingFriendRequests => FriendsService.Instance.IncomingFriendRequests;
+        public static IReadOnlyList<Relationship> OutgoingFriendRequests => FriendsService.Instance.OutgoingFriendRequests;
     }
 }
