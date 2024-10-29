@@ -1,54 +1,58 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityConnect;
 
-public class AuthSample : MonoBehaviour
+namespace UnityConnect.Samples
 {
-    [SerializeField] private TMP_Text errorText;
-
-    private void Start()
+    public class AuthSample : MonoBehaviour
     {
-        Authenticator.OnSignedIn += () =>
+        [SerializeField] private TMP_Text errorText;
+
+        private void Start()
         {
+            Authenticator.OnSignedIn += () =>
+            {
+                HideError();
+                gameObject.SetActive(false);
+                Debug.Log($"Signed in as {UserData.PlayerName}");
+            };
+            Authenticator.OnSignedOut += () =>
+            {
+                Debug.Log("Signed out");
+            };
+            Authenticator.OnErrorOccured += error =>
+            {
+                ShowError(error);
+            };
+            Authenticator.OnAccessTokenExpired += () =>
+            {
+                Debug.Log("Access token expired");
+            };
+        }
+
+        public void SetUsername(string username)
+        {
+            Authenticator.SetUsername(username);
             HideError();
-            gameObject.SetActive(false);
-            Debug.Log($"Signed in as {UserData.PlayerName}");
-        };
-        Authenticator.OnSignedOut += () =>
+        }
+        public void SetPassword(string password)
         {
-            Debug.Log("Signed out");
-        };
-        Authenticator.OnErrorOccured += error =>
+            Authenticator.SetPassword(password);
+            HideError();
+        }
+        private void ShowError(Exception error)
         {
-            ShowError(error);
-        };
-        Authenticator.OnAccessTokenExpired += () =>
+            ShowError(error.Message);
+        }
+        private void ShowError(string error)
         {
-            Debug.Log("Access token expired");
-        };
-    }
-
-    public void SetUsername(string username)
-    {
-        Authenticator.SetUsername(username);
-        HideError();
-    }
-    public void SetPassword(string password)
-    {
-        Authenticator.SetPassword(password);
-        HideError();
-    }
-    private void ShowError(Exception error)
-    {
-        ShowError(error.Message);
-    }
-    private void ShowError(string error)
-    {
-        errorText.text = error;
-        errorText.gameObject.SetActive(true);
-    }
-    private void HideError()
-    {
-        errorText.gameObject.SetActive(false);
+            errorText.text = error;
+            errorText.gameObject.SetActive(true);
+        }
+        private void HideError()
+        {
+            errorText.gameObject.SetActive(false);
+        }
     }
 }

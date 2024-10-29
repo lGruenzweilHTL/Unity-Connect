@@ -1,9 +1,20 @@
 using System;
+using System.Collections.Generic;
 using Unity.Services.Authentication;
-public static class UserData
+using Unity.Services.Friends.Models;
+using Unity.Services.Friends;
+
+namespace UnityConnect
 {
-    public static PlayerInfo PlayerInfo => AuthenticationService.Instance.PlayerInfo;
-    public static string PlayerName => PlayerInfo.Username;
-    public static DateTime CreationTime => PlayerInfo.CreatedAt ?? DateTime.MinValue;
-    public static string PlayerId => PlayerInfo.Id;
+    public static class UserData
+    {
+        public static PlayerInfo PlayerInfo => AuthenticationService.Instance.PlayerInfo;
+        public static string PlayerName => PlayerInfo.Username;
+        public static DateTime CreationTime => PlayerInfo.CreatedAt ?? DateTime.MinValue;
+        public static string PlayerId => PlayerInfo.Id;
+        public static List<Notification> AllUsers => AuthenticationService.Instance.Notifications;
+
+        public static IReadOnlyList<Relationship> Friends => FriendsService.Instance.Friends;
+        public static IReadOnlyList<Relationship> Blocked => FriendsService.Instance.Blocks;
+    }
 }

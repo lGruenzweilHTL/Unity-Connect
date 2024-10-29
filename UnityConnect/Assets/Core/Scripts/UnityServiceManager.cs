@@ -1,20 +1,24 @@
 using Unity.Services.Core;
+using UnityConnect;
 using UnityEngine;
 
-public class UnityServiceManager : MonoBehaviour
+namespace UnityConect
 {
-    private async void Start()
+    public class UnityServiceManager : MonoBehaviour
     {
-        UnityServices.Initialized += () =>
+        private async void Start()
         {
-            Debug.Log("Unity services initialized");
-        };
-        UnityServices.InitializeFailed += error =>
-        {
-            Debug.Log($"Unity service initialization failed: {error}");
-        };
+            UnityServices.Initialized += () =>
+            {
+                Debug.Log("Unity services initialized");
+            };
+            UnityServices.InitializeFailed += error =>
+            {
+                Debug.Log($"Unity service initialization failed: {error}");
+            };
 
-        await UnityServices.InitializeAsync();
-        Authenticator.Initialize();
+            await UnityServices.InitializeAsync();
+            Authenticator.Initialize();
+        }
     }
 }
