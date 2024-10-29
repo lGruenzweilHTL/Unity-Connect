@@ -612,7 +612,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 932496971}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Authenticator, Assembly-CSharp
         m_MethodName: SetPassword
         m_Mode: 0
@@ -1110,7 +1110,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 932496971}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Authenticator, Assembly-CSharp
         m_MethodName: SetUsername
         m_Mode: 0
@@ -1261,7 +1261,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 932496971}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Authenticator, Assembly-CSharp
         m_MethodName: SignUp
         m_Mode: 1
@@ -1745,7 +1745,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 932496967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be6258488c1434f4d93c5c4ac0791884, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cccb253554b22742976e924bebe080c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   errorText: {fileID: 1395574544}
@@ -2152,7 +2152,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 932496971}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Authenticator, Assembly-CSharp
         m_MethodName: SignIn
         m_Mode: 1

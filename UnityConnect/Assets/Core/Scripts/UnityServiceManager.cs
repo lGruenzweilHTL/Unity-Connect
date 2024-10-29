@@ -3,17 +3,18 @@ using UnityEngine;
 
 public class UnityServiceManager : MonoBehaviour
 {
-    private void Start()
+    private async void Start()
     {
         UnityServices.Initialized += () =>
         {
-            print("Unity services initialized");
+            Debug.Log("Unity services initialized");
         };
         UnityServices.InitializeFailed += error =>
         {
-            print($"Unity service initialization failed: {error}");
+            Debug.Log($"Unity service initialization failed: {error}");
         };
 
-        UnityServices.InitializeAsync();
+        await UnityServices.InitializeAsync();
+        Authenticator.Initialize();
     }
 }

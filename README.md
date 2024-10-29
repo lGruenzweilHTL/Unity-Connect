@@ -13,7 +13,7 @@ Social Interactivity Plattform for unity
 ## Todo
 
 ### Features
-- [ ] Authentication system
+- [x] Authentication system
 - [ ] Friends system
 - [ ] Report/Block
 - [ ] Moderation utilities
