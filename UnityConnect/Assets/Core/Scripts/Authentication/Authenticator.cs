@@ -1,4 +1,5 @@
 using System;
+using Unity.Services.Friends;
 using Auth = Unity.Services.Authentication.AuthenticationService;
 
 namespace UnityConnect
@@ -15,7 +16,11 @@ namespace UnityConnect
 
         public static void Initialize()
         {
-            Auth.Instance.SignedIn += () => OnSignedIn?.Invoke();
+            Auth.Instance.SignedIn += async () =>
+            {
+                await FriendsService.Instance.InitializeAsync();
+                OnSignedIn?.Invoke();
+            };
             Auth.Instance.SignInFailed += error => OnErrorOccured?.Invoke(error);
             Auth.Instance.Expired += () => OnAccessTokenExpired?.Invoke();
         }

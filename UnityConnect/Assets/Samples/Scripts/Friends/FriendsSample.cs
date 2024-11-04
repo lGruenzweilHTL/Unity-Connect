@@ -1,3 +1,5 @@
+using System.Linq;
+using TMPro;
 using Unity.Services.Friends;
 using Unity.Services.Friends.Models;
 using UnityEngine;
@@ -6,9 +8,18 @@ namespace UnityConnect.Samples
 {
     public class FriendsSample : MonoBehaviour
     {
+        [SerializeField] private TMP_Text friendsList;
+        [SerializeField] private TMP_Text blockList;
+
         private string _friendTargetName;
         private string _blockTargetName;
         private string _unblockTargetName;
+
+        public void UpdateFriendsList()
+        {
+            friendsList.text = "<size=120%>Friends</size>\n\n" + string.Join("\n", UserData.Friends.Select(rel => rel.Member.Profile.Name));
+            blockList.text = "<size=120%>Blocked</size>\n\n" + string.Join("\n", UserData.Blocked.Select(rel => rel.Member.Profile.Name));
+        }
 
         public void SetFriendTargetName(string name)
         {
@@ -33,7 +44,7 @@ namespace UnityConnect.Samples
         }
         public void UnblockPlayer()
         {
-            FriendsService.Instance.DeleteBlockAsync(_blockTargetName);
+            FriendsService.Instance.DeleteBlockAsync(_unblockTargetName);
         }
 
         public void RecallFriendRequest(string memberId)

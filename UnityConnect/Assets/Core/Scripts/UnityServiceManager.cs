@@ -1,4 +1,5 @@
 using Unity.Services.Core;
+using Unity.Services.Friends;
 using UnityEngine;
 
 namespace UnityConnect

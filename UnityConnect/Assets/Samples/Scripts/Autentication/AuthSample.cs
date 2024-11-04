@@ -41,6 +41,14 @@ namespace UnityConnect.Samples
             Authenticator.SetPassword(password);
             HideError();
         }
+        public void SignUp()
+        {
+            Authenticator.SignUp();
+        }
+        public void SignIn()
+        {
+            Authenticator.SignIn();
+        }
         private void ShowError(Exception error)
         {
             ShowError(error.Message);
