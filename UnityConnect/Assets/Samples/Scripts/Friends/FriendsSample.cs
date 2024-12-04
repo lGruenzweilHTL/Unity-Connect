@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Services.Friends;
@@ -14,11 +15,11 @@ namespace UnityConnect.Samples
         private string _friendTargetName;
         private string _blockTargetName;
         private string _unblockTargetName;
-
+        
         public void UpdateFriendsList()
         {
-            friendsList.text = "<size=120%>Friends</size>\n\n" + string.Join("\n", UserData.Friends.Select(rel => rel.Member.Profile.Name));
-            blockList.text = "<size=120%>Blocked</size>\n\n" + string.Join("\n", UserData.Blocked.Select(rel => rel.Member.Profile.Name));
+            friendsList.text = "<size=120%>Friends</size>\n\n" + string.Join("\n", UserData.Friends.Select(rel => rel.Member.Id));
+            blockList.text = "<size=120%>Blocked</size>\n\n" + string.Join("\n", UserData.Blocked.Select(rel => rel.Member.Id));
         }
 
         public void SetFriendTargetName(string name)
@@ -36,45 +37,89 @@ namespace UnityConnect.Samples
 
         public void SendFriendRequest()
         {
-            FriendsService.Instance.AddFriendByNameAsync(_friendTargetName);
+            SendFriendRequest(_friendTargetName);
         }
         public void BlockPlayer()
         {
-            FriendsService.Instance.AddBlockAsync(_blockTargetName);
+            BlockPlayer(_blockTargetName);
         }
         public void UnblockPlayer()
         {
-            FriendsService.Instance.DeleteBlockAsync(_unblockTargetName);
+            UnblockPlayer(_unblockTargetName);
+        }
+        
+        [Command]
+        private static void SendFriendRequest(string memberId)
+        {
+            FriendsService.Instance.AddFriendAsync(memberId);
+        }
+        [Command]
+        private static void BlockPlayer(string memberId)
+        {
+            FriendsService.Instance.AddBlockAsync(memberId);
+        }
+        [Command]
+        private static void UnblockPlayer(string memberId)
+        {
+            FriendsService.Instance.DeleteBlockAsync(memberId);
         }
 
-        public void RecallFriendRequest(string memberId)
+        [Command]
+        private static void RecallFriendRequest(string memberId)
         {
             FriendsService.Instance.DeleteOutgoingFriendRequestAsync(memberId);
         }
-        public void AcceptFriendRequest(string memberId)
+        [Command]
+        public static string AcceptFriendRequest(string memberId)
         {
-            // Sending a friend request to a player you have a request incoming from, automatically creates a Friend relationship between the players
-            if (GetRelationshipWithPlayer(memberId) == RelationshipType.Friend)
+            // Check if there is an incoming friend request from the member
+            var incomingRequest = UserData.IncomingFriendRequests.FirstOrDefault(req => req.Member.Id == memberId);
+            if (incomingRequest != null)
             {
-                FriendsService.Instance.AddFriendAsync(memberId);
+                // If there is an incoming friend request, add the member as a friend
+                SendFriendRequest(memberId);
+                return "Successfully accepted the request from " + memberId;
+            }
+            else
+            {
+                return $"No incoming friend request from member with ID: {memberId}";
             }
         }
-        public void DeclineFriendRequest(string memberId)
+        [Command]
+        public static void DeclineFriendRequest(string memberId)
         {
             FriendsService.Instance.DeleteIncomingFriendRequestAsync(memberId);
         }
 
-        public RelationshipType GetRelationshipWithPlayer(string playerId)
+        [Command("Gets the relationship between the specified player and the current user")]
+        private static RelationshipType GetRelationshipWithPlayer(string playerId)
         {
             var relationships = FriendsService.Instance.Relationships;
-            foreach (var relationship in relationships)
-            {
-                if (relationship.Member.Id == playerId)
-                {
-                    return relationship.Type;
-                }
-            }
-            return 0;
+            return (from relationship in relationships
+                where relationship.Member.Id == playerId
+                select relationship.Type).FirstOrDefault();
+        }
+        
+        [Command("Lists all relationships")]
+        public static string ListRelationships()
+        {
+            var relationships = FriendsService.Instance.Relationships;
+            return string.Join("\n", relationships.Select(r => $"Player {r.Member.Id}: {r.Type}"));
+        }
+
+        [Command("Lists all incoming and outgoing friend requests")]
+        public static string ListFriendRequests()
+        {
+            var incoming = UserData.IncomingFriendRequests;
+            var outgoing = UserData.OutgoingFriendRequests;
+            return $"Incoming: {string.Join(", ", incoming.Select(req => req.Member.Id))}\nOutgoing: {string.Join(", ", outgoing.Select(req => req.Member.Id))}";
+        }
+
+        [Command("Refreshes all relationships")]
+        public static void RefreshAll()
+        {
+            FriendsService.Instance.ForceRelationshipsRefreshAsync();
+            FriendsService.Instance.
         }
     }
 }

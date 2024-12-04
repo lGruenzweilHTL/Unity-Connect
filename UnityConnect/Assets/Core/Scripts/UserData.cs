@@ -9,11 +9,10 @@ namespace UnityConnect
     public static class UserData
     {
         public static PlayerInfo PlayerInfo => AuthenticationService.Instance.PlayerInfo;
-        public static string PlayerName => PlayerInfo.Username;
+        public static string PlayerName => PlayerInfo.Id;
         public static DateTime CreationTime => PlayerInfo.CreatedAt ?? DateTime.MinValue;
-        public static string PlayerId => PlayerInfo.Id;
-        public static List<Notification> AllUsers => AuthenticationService.Instance.Notifications;
-
+        public static List<Notification> Notifications => AuthenticationService.Instance.Notifications;
+        
         public static IReadOnlyList<Relationship> Friends => FriendsService.Instance.Friends;
         public static IReadOnlyList<Relationship> Blocked => FriendsService.Instance.Blocks;
         public static IReadOnlyList<Relationship> IncomingFriendRequests => FriendsService.Instance.IncomingFriendRequests;
