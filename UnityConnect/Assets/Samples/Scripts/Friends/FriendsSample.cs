@@ -119,7 +119,6 @@ namespace UnityConnect.Samples
         public static void RefreshAll()
         {
             FriendsService.Instance.ForceRelationshipsRefreshAsync();
-            FriendsService.Instance.
         }
     }
 }
